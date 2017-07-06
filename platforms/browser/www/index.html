@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/timetable.css" />
+    <link rel="stylesheet" type="text/css" href="css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="css/settings.css" />
+    <title>Stundenplan</title>
+    
+    <script type="text/javascript">
+	    var currentDayIndex = 1;
+	    function goback() {
+		    if (currentDayIndex > 0) {
+		    	app.day = app.days[--currentDayIndex];
+		    	app.loadData();
+		    }
+	    }
+	    
+	    function goforward() {
+		    if (currentDayIndex <= app.days.length - 2) {
+		    	app.day = app.days[++currentDayIndex];
+		    	app.loadData();
+		    }	
+	    }
+	</script>
+</head>
+
+<body>
+	<div id="wrapper">
+		<img src="css/looding.gif" alt="looding" width="112" height="100" />
+	</div>
+	<div id="navbar-statusbar"></div>
+	<div id="navbar">
+		<div class="navItem active">
+			Stundenplan
+		</div>
+		<div class="navItem">
+			Einstellungen
+		</div>
+	</div>
+
+    <div class="full-page active" id="timetable">
+	    <div class="header">
+		    <h1><span class="buttong" id="back" onclick="goback()"> < </span>Hüt<span class="buttong" id="forward" onclick="goforward()">></span></h1>
+	    </div>
+	    <div class="content"></div>
+        <!--<iframe class="full-page" src="http://intranet.tam.ch/kbw/public/timetable/daily-class-schedule?dayShort=today"></iframe>-->
+    </div>
+
+    <div class="full-page" id="settings">
+        <h1>Einstellungen</h1>
+        <table>
+	        <tbody>
+		        <tr>
+			        <td>Schule</td>
+			        <td>
+				        <select onchange="schoolChanged(event)">					
+					        <optgroup label="Mittelschulen">
+					            <option value="kme">
+					                Kantonale Maturitätsschule für Erwachsene
+					            </option>
+					
+					            <option value="kbw" selected>
+					                Kantonsschule Büelrain
+					            </option>
+					
+					            <option value="ken">
+					                Kantonsschule Enge
+					            </option>
+					
+					            <option value="kfr">
+					                Kantonsschule Freudenberg
+					            </option>
+					
+					            <option value="khp">
+					                Kantonsschule Hohe Promenade
+					            </option>
+					
+					            <option value="kho">
+					                Kantonsschule Hottingen
+					            </option>
+					
+					            <option value="klw">
+					                Kantonsschule Im Lee
+					            </option>
+					
+					            <option value="kkn">
+					                Kantonsschule Küsnacht
+					            </option>
+					
+					            <option value="kli">
+					                Kantonsschule Limmattal
+					            </option>
+					
+					            <option value="krw">
+					                Kantonsschule Rychenberg
+					            </option>
+					
+					            <option value="kst">
+					                Kantonsschule Stadelhofen
+					            </option>
+					
+					            <option value="kue">
+					                Kantonsschule Uetikon am See
+					            </option>
+					
+					            <option value="kus">
+					                Kantonsschule Uster
+					            </option>
+					
+					            <option value="kwi">
+					                Kantonsschule Wiedikon
+					            </option>
+					
+					            <option value="kzo">
+					                Kantonsschule Zürcher Oberland
+					            </option>
+					
+					            <option value="kzu">
+					                Kantonsschule Zürcher Unterland
+					            </option>
+					
+					            <option value="kzn">
+					                Kantonsschule Zürich Nord
+					            </option>
+					
+					            <option value="krl">
+					                Literargymnasium Rämibühl
+					            </option>
+					
+					            <option value="krm">
+					                Mathematisch- Naturwissenschaftliches Gymnasium Rämibühl
+					            </option>
+					
+					            <option value="krr">
+					                Realgymnasium Rämibühl
+					            </option>
+					
+					            <option value="slk">
+					                Schulleiterkonferenz
+					            </option>
+					        </optgroup>
+					
+					        <optgroup label="Berufsfachschulen">
+					            <option value="abs">
+					                Allgemeine Berufsschule Zürich
+					            </option>
+					
+					            <option value="bbz">
+					                Baugewerbliche Berufsschule Zürich
+					            </option>
+					
+					            <option value="bbw">
+					                BBW, Berufsbildungsschule Winterthur
+					            </option>
+					
+					            <option value="bzd">
+					                Berufsbildungszentrum Dietikon
+					            </option>
+					
+					            <option value="bfs">
+					                Berufsfachschule Winterthur
+					            </option>
+					
+					            <option value="bmz">
+					                Berufsmaturitätsschule Zürich
+					            </option>
+					
+					            <option value="bsb">
+					                Berufsschule Bülach
+					            </option>
+					
+					            <option value="dhz">
+					                Berufsschule für Detailhandel Zürich
+					            </option>
+					
+					            <option value="bgz">
+					                Berufsschule für Gestaltung Zürich
+					            </option>
+					
+					            <option value="bsmg">
+					                Berufsschule Mode und Gestaltung
+					            </option>
+					
+					            <option value="bsr">
+					                Berufsschule Rüti
+					            </option>
+					
+					            <option value="bzu">
+					                Bildungszentrum Uster
+					            </option>
+					
+					            <option value="bzz">
+					                Bildungszentrum Zürichsee
+					            </option>
+					
+					            <option value="ebz">
+					                EB-Zürich
+					            </option>
+					
+					            <option value="gbw">
+					                Gewerbliche Berufsschule Wetzikon
+					            </option>
+					
+					            <option value="lss">
+					                Strickhof
+					            </option>
+					
+					            <option value="tbz">
+					                Technische Berufsschule Zürich
+					            </option>
+					
+					            <option value="kvw">
+					                Wirtschaftsschule KV Wetzikon
+					            </option>
+					
+					            <option value="wskvw">
+					                Wirtschaftsschule KV Winterthur
+					            </option>
+					
+					            <option value="zag">
+					                Zentrum für Ausbildung im Gesundheitswesen
+					            </option>
+					        </optgroup>
+					
+					        <optgroup label="Amt">
+					            <option value="mba">
+					                Mittelschul- und Berufsbildungsamt
+					            </option>
+					        </optgroup>
+					    </select>
+			        </td>
+		        </tr>
+		        <tr>
+			        <td>Klasse</td>
+			        <td>
+				        <input onchange="classChanged(event)" type="text" value="3i" placeholder="Bspw. 3i" />
+			        </td>
+		        </tr>
+	        </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/EventDispatcher.js"></script>
+    <script type="text/javascript" src="js/SheekDetector.js"></script>
+    <script type="text/javascript" src="js/nav.js"></script>
+    <script type="text/javascript" src="js/settings.js"></script>
+    <script type="text/javascript" src="js/settingsUI.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+
+</html>

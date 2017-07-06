@@ -1,0 +1,29 @@
+#settings {
+	padding: 80px 12px 0px 12px;
+	text-align: center;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+#settings table {
+	margin: auto;
+	max-width: 100%;
+}
+
+#settings table td {
+	padding: 5px;
+}
+
+#settings select {
+	max-width: 150px;
+}
+
+#settings > table tbody tr td:last-child {
+	text-align: left;
+}
+
+@media device-width: 500px {
+	#settings table {
+		width: 400px;
+	}
+}
