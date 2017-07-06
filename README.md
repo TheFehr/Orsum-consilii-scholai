@@ -1,4 +1,5 @@
-# Hello World PhoneGap Template [![bitHound Score][bithound-img]][bithound-url]
+# Orsum consilii scholai
+## Stundenplan-App
 
 A PhoneGap Hello World template
 
