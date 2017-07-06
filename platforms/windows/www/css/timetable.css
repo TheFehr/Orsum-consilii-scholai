@@ -1,0 +1,174 @@
+﻿* {
+	font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.full-page {
+	position: absolute;
+	top: 0px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding-top: 72px;
+}
+
+.hidden {
+	display: none;
+}
+
+#timetable {
+	box-sizing: border-box;
+}
+
+#timetable table {
+	width: 100%;
+	height: 100%;
+	border-collapse: collapse;
+}
+
+#timetable th, #timetable td {
+	border: 1px solid black;
+}
+
+#timetable th {
+	border-left: none;
+	width: 30%;
+}
+
+#timetable td {
+	border-right: none;
+}
+
+.ttp-cell li {
+	list-style: none;
+}
+
+.ttp-cell {
+	margin-left: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.ttp-lesson {
+	margin-left: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.ttp-lesson-subject {
+	font-weight: bolder;
+}
+
+.ttp-second-row {
+	text-align: left;
+}
+
+.ttp-block-cell {
+	background: lightgrey;
+}
+
+.ttp-block-comment {
+	color: red;
+	font-weight: bolder;
+}
+
+.ttp-reservation-cell {
+	font-weight: bolder;
+}
+
+.ttp-mod-changed {
+	color: blue;
+}
+
+.ttp-mod-deleted {
+	color: red;
+	text-decoration: line-through;
+}
+
+.ttp-mod-deleted::after {
+	color: red;
+	text-decoration: line-through;
+}
+
+.ttp-lesson-comment {
+	color: red;
+	font-weight: bolder;
+}
+
+.ttp-lesson ul {
+	display: table-row;
+}
+
+.ttp-lesson li {
+	float: left;
+}
+
+.ttp-cell ul:empty::after {
+	content: "Nix da Schtund";
+	color: grey;
+	margin-left: 20px;
+
+}
+
+.ttp-cell ul li ul li::after {
+	font-weight: normal;
+	content: ",";
+	margin-right: 3px;
+}
+
+.ttp-cell ul li ul li:last-child::after {
+	content: "";
+	margin-right: 0;
+}
+
+.ttp-multiple-lessons {
+	display: block;
+}
+
+.class-error {
+	font-size: 1.7em;
+	text-align: center;
+	margin-top: calc( 100% / 2 - 20px);
+	color: grey;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.buttong {
+	color: blue;
+	cursor: pointer;
+}
+
+#timetable .header {
+	text-align: center;
+}
+
+#timetable .header #back {
+	float: left;
+}
+
+#timetable .header #forward {
+	float: right;
+}
+
+#wrapper {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.73);
+	z-index: 100;
+	display: none;
+}
+
+#wrapper img {
+	margin: auto;
+	width: 112px;
+	height: 100px;
+	display: block;
+	position: relative;
+	top: 50%;
+	margin-top: -50px;
+}

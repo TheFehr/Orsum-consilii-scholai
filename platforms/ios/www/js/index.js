@@ -88,6 +88,10 @@ var app = {
 
         for (var i = 0; i < lines.length; i++) {
             var th = $('th', lines[i]);
+            if($(lines[i]).hasClass('ttp-second-row')){
+                console.log(lines[i]);
+
+            }
             if(th.text().toLowerCase().replace(/ /g,'') != settings.class.toLowerCase().replace(/ /g,'')) {
                 $($(th).parent(), html).remove();
             } else {
@@ -114,6 +118,9 @@ var app = {
         var table = $('<table></table>');
 
         for(var i = 0; i < hrs.length; i++){
+            if($(data[i]).attr('rowspan') != undefined){
+                $(data[i]).removeAttr('rowspan');
+            }
             if($(data[i]).attr('colspan') != undefined){
                 $(data[i]).attr('rowspan', $(data[i]).attr('colspan'));
                 $(data[i]).removeAttr('colspan');
