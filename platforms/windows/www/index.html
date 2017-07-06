@@ -43,22 +43,25 @@
     <link rel="stylesheet" type="text/css" href="css/nav.css" />
     <link rel="stylesheet" type="text/css" href="css/settings.css" />
     <title>Stundenplan</title>
-    
+
     <script type="text/javascript">
 	    var currentDayIndex = 1;
 	    function goback() {
 		    if (currentDayIndex > 0) {
 		    	app.day = app.days[--currentDayIndex];
+                document.getElementById('timetable-day').innerHTML = app.tage[currentDayIndex];
 		    	app.loadData();
 		    }
 	    }
-	    
+
 	    function goforward() {
 		    if (currentDayIndex <= app.days.length - 2) {
 		    	app.day = app.days[++currentDayIndex];
+                document.getElementById('timetable-day').innerHTML = app.tage[currentDayIndex];
 		    	app.loadData();
-		    }	
+		    }
 	    }
+
 	</script>
 </head>
 
@@ -78,7 +81,7 @@
 
     <div class="full-page active" id="timetable">
 	    <div class="header">
-		    <h1><span class="buttong" id="back" onclick="goback()"> < </span>Hüt<span class="buttong" id="forward" onclick="goforward()">></span></h1>
+		    <h1><span class="buttong" id="back" onclick="goback()"> < </span><span id="timetable-day">Hüt</span><span class="buttong" id="forward" onclick="goforward()">></span></h1>
 	    </div>
 	    <div class="content"></div>
         <!--<iframe class="full-page" src="http://intranet.tam.ch/kbw/public/timetable/daily-class-schedule?dayShort=today"></iframe>-->
@@ -91,175 +94,175 @@
 		        <tr>
 			        <td>Schule</td>
 			        <td>
-				        <select onchange="schoolChanged(event)">					
+				        <select onchange="schoolChanged(event)">
 					        <optgroup label="Mittelschulen">
 					            <option value="kme">
 					                Kantonale Maturitätsschule für Erwachsene
 					            </option>
-					
+
 					            <option value="kbw" selected>
 					                Kantonsschule Büelrain
 					            </option>
-					
+
 					            <option value="ken">
 					                Kantonsschule Enge
 					            </option>
-					
+
 					            <option value="kfr">
 					                Kantonsschule Freudenberg
 					            </option>
-					
+
 					            <option value="khp">
 					                Kantonsschule Hohe Promenade
 					            </option>
-					
+
 					            <option value="kho">
 					                Kantonsschule Hottingen
 					            </option>
-					
+
 					            <option value="klw">
 					                Kantonsschule Im Lee
 					            </option>
-					
+
 					            <option value="kkn">
 					                Kantonsschule Küsnacht
 					            </option>
-					
+
 					            <option value="kli">
 					                Kantonsschule Limmattal
 					            </option>
-					
+
 					            <option value="krw">
 					                Kantonsschule Rychenberg
 					            </option>
-					
+
 					            <option value="kst">
 					                Kantonsschule Stadelhofen
 					            </option>
-					
+
 					            <option value="kue">
 					                Kantonsschule Uetikon am See
 					            </option>
-					
+
 					            <option value="kus">
 					                Kantonsschule Uster
 					            </option>
-					
+
 					            <option value="kwi">
 					                Kantonsschule Wiedikon
 					            </option>
-					
+
 					            <option value="kzo">
 					                Kantonsschule Zürcher Oberland
 					            </option>
-					
+
 					            <option value="kzu">
 					                Kantonsschule Zürcher Unterland
 					            </option>
-					
+
 					            <option value="kzn">
 					                Kantonsschule Zürich Nord
 					            </option>
-					
+
 					            <option value="krl">
 					                Literargymnasium Rämibühl
 					            </option>
-					
+
 					            <option value="krm">
 					                Mathematisch- Naturwissenschaftliches Gymnasium Rämibühl
 					            </option>
-					
+
 					            <option value="krr">
 					                Realgymnasium Rämibühl
 					            </option>
-					
+
 					            <option value="slk">
 					                Schulleiterkonferenz
 					            </option>
 					        </optgroup>
-					
+
 					        <optgroup label="Berufsfachschulen">
 					            <option value="abs">
 					                Allgemeine Berufsschule Zürich
 					            </option>
-					
+
 					            <option value="bbz">
 					                Baugewerbliche Berufsschule Zürich
 					            </option>
-					
+
 					            <option value="bbw">
 					                BBW, Berufsbildungsschule Winterthur
 					            </option>
-					
+
 					            <option value="bzd">
 					                Berufsbildungszentrum Dietikon
 					            </option>
-					
+
 					            <option value="bfs">
 					                Berufsfachschule Winterthur
 					            </option>
-					
+
 					            <option value="bmz">
 					                Berufsmaturitätsschule Zürich
 					            </option>
-					
+
 					            <option value="bsb">
 					                Berufsschule Bülach
 					            </option>
-					
+
 					            <option value="dhz">
 					                Berufsschule für Detailhandel Zürich
 					            </option>
-					
+
 					            <option value="bgz">
 					                Berufsschule für Gestaltung Zürich
 					            </option>
-					
+
 					            <option value="bsmg">
 					                Berufsschule Mode und Gestaltung
 					            </option>
-					
+
 					            <option value="bsr">
 					                Berufsschule Rüti
 					            </option>
-					
+
 					            <option value="bzu">
 					                Bildungszentrum Uster
 					            </option>
-					
+
 					            <option value="bzz">
 					                Bildungszentrum Zürichsee
 					            </option>
-					
+
 					            <option value="ebz">
 					                EB-Zürich
 					            </option>
-					
+
 					            <option value="gbw">
 					                Gewerbliche Berufsschule Wetzikon
 					            </option>
-					
+
 					            <option value="lss">
 					                Strickhof
 					            </option>
-					
+
 					            <option value="tbz">
 					                Technische Berufsschule Zürich
 					            </option>
-					
+
 					            <option value="kvw">
 					                Wirtschaftsschule KV Wetzikon
 					            </option>
-					
+
 					            <option value="wskvw">
 					                Wirtschaftsschule KV Winterthur
 					            </option>
-					
+
 					            <option value="zag">
 					                Zentrum für Ausbildung im Gesundheitswesen
 					            </option>
 					        </optgroup>
-					
+
 					        <optgroup label="Amt">
 					            <option value="mba">
 					                Mittelschul- und Berufsbildungsamt

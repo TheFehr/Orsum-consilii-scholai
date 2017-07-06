@@ -22,9 +22,12 @@ var app = {
         "yesterday", "today", "tomorrow", "dayAfterTomorrow"
     ],
 
+    tage : [
+        "Gestär", "Hüt", "Moärn", "Übermoärn"
+    ],
+
     day : "today",
 
-    // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
@@ -35,11 +38,9 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
+
     onDeviceReady: function() {
+        $("#timetable-day").text(app.tage[currentDayIndex]);
         initSheek();
         eventController.register("schüddel", app.loadData);
         eventController.register("settings", app.loadData);
@@ -59,8 +60,8 @@ var app = {
         } else {
             url = url.concat("/public/timetable/daily-class-schedule?dayShort=today");
         }
-        
-        return /*"http://192.168.43.31/today.html"*/url;
+
+        return url;
     },
 
     loadData: function() {
@@ -84,53 +85,101 @@ var app = {
         var lines = $('.ttp-line, .ttp-second-row', con);
 
         var classFound = false;
+        var secondLine = false;
         var table;
 
         for (var i = 0; i < lines.length; i++) {
             var th = $('th', lines[i]);
             if(th.text().toLowerCase().replace(/ /g,'') != settings.class.toLowerCase().replace(/ /g,'')) {
                 $($(th).parent(), html).remove();
+                if($(lines[i+1]).hasClass('ttp-second-row')){
+                    $(lines[i+1], html).remove();
+                }
             } else {
                 classFound = true;
+                if($(lines[i+1]).hasClass('ttp-second-row')){
+                    secondLine = true;
+                }
             }
         };
 
         if(!classFound){
             table = $('<p></p>').addClass('class-error').text("Keine Klasse '"+settings.class+"' gefunden!");
         } else {
-            table = app.parseClass(html);
+            table = app.parseClass(html, secondLine);
         }
 
         var container = $('#timetable .content');
         container.html(table)
     },
 
-    parseClass: function(con) {
+    parseClass: function(con, flag) {
         var hrs = $(con).find("thead .ttp-cell");
-        var data = $(con).find("tbody td");
-
-        console.log(hrs.text());
+        var data = $("tbody .ttp-line td", con);
 
         var table = $('<table></table>');
+        /*if(flag){*/
+            var data2 = $("tbody .ttp-second-row td", con).siblings();
+            var counter = 0;
+            var rowsW = 0;
+            var fnished = false;
 
-        for(var i = 0; i < hrs.length; i++){
-            if($(data[i]).attr('colspan') != undefined){
-                $(data[i]).attr('rowspan', $(data[i]).attr('colspan'));
-                $(data[i]).removeAttr('colspan');
-            }
-            var row = $('<tr></tr>').append(hrs[i]).append(data[i]);    
-            table.append(row);
-        };
+            for(var i = 0; i < hrs.length; i++){
+                if($(data[i]).attr('rowspan') != undefined){
+                    $(data[i]).removeAttr('rowspan');
+                }
+                if($(data[i]).attr('colspan') != undefined){
+                    $(data[i]).attr('rowspan', $(data[i]).attr('colspan'));
+                    $(data[i]).removeAttr('colspan');
+                } else {
+                    $(data[i]).attr('colspan', 2);
+                }
+                if($(data[i]).hasClass("ttp-block-cell")){
+                    console.log("IF");
+                    if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i]).append(data2[counter]);}
+                    else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
+                    counter = 1;
+                    finished = false;
+                    rowsW = $(data[i]).attr("rowspan")-1;
+                } else if(rowsW >= counter && !finished) {
+                    console.log("ELSE IF");
+                    if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data2[counter]);}
+                    counter++;
+                } else {
+                    console.log("ELSE");
+                    if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i-rowsW]);}
+                    else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
+                    counter = 0;
+                    finished = true;
+                }
+                table.append(row);
+            /*}
 
-        /*for(var i = 1; i < hrs.length; i++){
-            var d = $(data[i]);
-            var row = $('<tr></tr>').append(hrs[i]).append(d);
-            if(data.length > hrs.length) {
-                row.append(data[data.length-(data.length-hrs.length+i)]);       
-            }
-            table.append(row);
-        }*/
-        
+        } else {
+            for(var i = 0; i < hrs.length; i++){
+                var counter = 0;
+                var rowsW = 0;
+                var fnished = false;
+
+                if($(data[i]).attr('rowspan') != undefined){
+                    $(data[i]).removeAttr('rowspan');
+                }
+                if($(data[i]).attr('colspan') != undefined){
+                    $(data[i]).attr('rowspan', $(data[i]).attr('colspan'));
+                    rowsW = $(data[i]).attr('colspan')-1;
+                    $(data[i]).removeAttr('colspan');
+                }
+                if(rowsW > counter && !finished){
+                    counter++;
+                } else {
+                    var row = $('<tr></tr>').append(hrs[i]).append(data[i-rowsW]);
+                    counter = 0;
+                    finished = true;
+                }
+                table.append(row);
+            };*/
+        }
+
         return table;
     }
 };
