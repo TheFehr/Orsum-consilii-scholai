@@ -84,7 +84,7 @@ var app = {
     },
 
     loadSuccess: function(data) {
-        var html = $("table", $.parseHTML( data ));
+        var html = $(".ttp-table-wrapper", $.parseHTML( data ));
         var con = $('.ttp-table', html);
 
         var lines = $('.ttp-line, .ttp-second-row', con);
@@ -109,6 +109,7 @@ var app = {
         };
 
         if(!classFound){
+            console.log(html.html());
             table = $('<p></p>').addClass('class-error').text("Keine Klasse '"+settings.class+"' gefunden!");
         } else {
             table = app.parseClass(html, secondLine);
