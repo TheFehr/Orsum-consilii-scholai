@@ -66,6 +66,7 @@ var app = {
 
     loadData: function() {
         var xmlHttp = new XMLHttpRequest();
+        displayLoadingOverlay();
         xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
                 app.loadSuccess(xmlHttp.responseText);
@@ -81,6 +82,7 @@ var app = {
         var table = $('<p></p>').addClass('class-error').text("Konnte den Stundenplan der Schule '"+settings.school+"' nicht laden!");
         var container = $('#timetable .content');
         container.html(table)
+        hideLoadingOverlay();
     },
 
     loadSuccess: function(data) {
@@ -116,7 +118,13 @@ var app = {
         }
 
         var container = $('#timetable .content');
-        container.html(table)
+        var div = $('<div></div>').html(table);
+        console.log(div.html());
+        div.onload = function(){
+            alert("HI!");
+        };
+        container.append(div);
+        hideLoadingOverlay();
     },
 
     parseClass: function(con, flag) {
