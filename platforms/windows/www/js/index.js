@@ -126,7 +126,7 @@ var app = {
         div.onload = function(){
             alert("HI!");
         };
-        container.append(div);
+        container.html(div);
         hideLoadingOverlay();
     },
 
