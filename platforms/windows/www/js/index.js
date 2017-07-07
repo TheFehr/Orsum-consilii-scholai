@@ -23,7 +23,7 @@ var app = {
     ],
 
     tage : [
-        "Gestär", "Hüt", "Moärn", "Übermoärn"
+        "Gestär", "Hüt", "Moärn", "Übärmoärn"
     ],
 
     day : "today",
@@ -67,19 +67,24 @@ var app = {
     loadData: function() {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            app.loadSuccess(xmlHttp.responseText);
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+                app.loadSuccess(xmlHttp.responseText);
+            } else {
+                app.loadError();
+            }
         }
         xmlHttp.open("GET", app.buildURL(app.settings), true); // true for asynchronous
         xmlHttp.send(null);
     },
 
-    loadError: function(data) {
-
+    loadError: function() {
+        var table = $('<p></p>').addClass('class-error').text("Konnte den Stundenplan der Schule '"+settings.school+"' nicht laden!");
+        var container = $('#timetable .content');
+        container.html(table)
     },
 
     loadSuccess: function(data) {
-        var html = $($.parseHTML( data ));
+        var html = $("table", $.parseHTML( data ));
         var con = $('.ttp-table', html);
 
         var lines = $('.ttp-line, .ttp-second-row', con);
@@ -117,67 +122,43 @@ var app = {
         var hrs = $(con).find("thead .ttp-cell");
         var data = $("tbody .ttp-line td", con);
 
+        if(hrs.length == 0 || data.length == 0){
+            return $('<p></p>').addClass('class-error').text("Konnte den Stundenplan der Schule '"+settings.school+"' nicht laden!");
+        }
+
         var table = $('<table></table>');
-        /*if(flag){*/
-            var data2 = $("tbody .ttp-second-row td", con).siblings();
-            var counter = 0;
-            var rowsW = 0;
-            var fnished = false;
 
-            for(var i = 0; i < hrs.length; i++){
-                if($(data[i]).attr('rowspan') != undefined){
-                    $(data[i]).removeAttr('rowspan');
-                }
-                if($(data[i]).attr('colspan') != undefined){
-                    $(data[i]).attr('rowspan', $(data[i]).attr('colspan'));
-                    $(data[i]).removeAttr('colspan');
-                } else {
-                    $(data[i]).attr('colspan', 2);
-                }
-                if($(data[i]).hasClass("ttp-block-cell")){
-                    console.log("IF");
-                    if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i]).append(data2[counter]);}
-                    else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
-                    counter = 1;
-                    finished = false;
-                    rowsW = $(data[i]).attr("rowspan")-1;
-                } else if(rowsW >= counter && !finished) {
-                    console.log("ELSE IF");
-                    if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data2[counter]);}
-                    counter++;
-                } else {
-                    console.log("ELSE");
-                    if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i-rowsW]);}
-                    else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
-                    counter = 0;
-                    finished = true;
-                }
-                table.append(row);
-            /*}
+        var data2 = $("tbody .ttp-second-row td", con).siblings();
+        var counter = 0;
+        var rowsW = 0;
+        var finished = false;
 
-        } else {
-            for(var i = 0; i < hrs.length; i++){
-                var counter = 0;
-                var rowsW = 0;
-                var fnished = false;
-
-                if($(data[i]).attr('rowspan') != undefined){
-                    $(data[i]).removeAttr('rowspan');
-                }
-                if($(data[i]).attr('colspan') != undefined){
-                    $(data[i]).attr('rowspan', $(data[i]).attr('colspan'));
-                    rowsW = $(data[i]).attr('colspan')-1;
-                    $(data[i]).removeAttr('colspan');
-                }
-                if(rowsW > counter && !finished){
-                    counter++;
-                } else {
-                    var row = $('<tr></tr>').append(hrs[i]).append(data[i-rowsW]);
-                    counter = 0;
-                    finished = true;
-                }
-                table.append(row);
-            };*/
+        for(var i = 0; i < hrs.length; i++){
+            if($(data[i]).attr('rowspan') != undefined){
+                $(data[i]).removeAttr('rowspan');
+            }
+            if($(data[i]).attr('colspan') != undefined){
+                $(data[i]).attr('rowspan', $(data[i]).attr('colspan'));
+                $(data[i]).removeAttr('colspan');
+            } else {
+                $(data[i]).attr('colspan', 2);
+            }
+            if($(data[i]).hasClass("ttp-block-cell")){
+                if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i]).append(data2[counter]);}
+                else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
+                counter = 1;
+                finished = false;
+                rowsW = $(data[i]).attr("rowspan")-1;
+            } else if(rowsW >= counter && !finished) {
+                if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data2[counter]);}
+                counter++;
+            } else {
+                if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i-rowsW]);}
+                else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
+                counter = 0;
+                finished = true;
+            }
+            table.append(row);
         }
 
         return table;
