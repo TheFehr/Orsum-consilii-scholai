@@ -69,10 +69,12 @@ var app = {
         var xmlHttp = new XMLHttpRequest();
         displayLoadingOverlay();
         xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-                app.loadSuccess(xmlHttp.responseText);
-            } else {
-                app.loadError();
+            if (xmlHttp.readyState == 4){
+                if (xmlHttp.status == 200){
+                    app.loadSuccess(xmlHttp.responseText);
+                } else {
+                    app.loadError();
+                }
             }
         }
         xmlHttp.open("GET", app.buildURL(app.settings), true); // true for asynchronous
