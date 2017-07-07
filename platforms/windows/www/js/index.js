@@ -23,7 +23,7 @@ var app = {
     ],
 
     tage : [
-        "Gestär", "Hüt", "Moärn", "Übermoärn"
+        "Gestär", "Hüt", "Moärn", "Übärmoärn"
     ],
 
     day : "today",
