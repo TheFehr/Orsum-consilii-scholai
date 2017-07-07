@@ -89,7 +89,8 @@ var app = {
     },
 
     loadSuccess: function(data) {
-        var html = $(".ttp-table-wrapper", $.parseHTML( data ));
+        var html = $($.parseHTML( data ));
+        var html = $(".ttp-table-wrapper", html);
         var con = $('.ttp-table', html);
 
         var lines = $('.ttp-line, .ttp-second-row', con);
@@ -114,7 +115,6 @@ var app = {
         };
 
         if(!classFound){
-            //console.log(html.html());
             table = $('<p></p>').addClass('class-error').text("Keine Klasse '"+settings.class+"' gefunden!");
         } else {
             table = app.parseClass(html, secondLine);
@@ -122,7 +122,6 @@ var app = {
 
         var container = $('#timetable .content');
         var div = $('<div></div>').html(table);
-        console.log(div.html());
         div.onload = function(){
             alert("HI!");
         };
@@ -134,12 +133,14 @@ var app = {
         var hrs = $(con).find("thead .ttp-cell");
         var data = $("tbody .ttp-line td", con);
 
+        console.log(hrs.text());
+
         var table = $('<table></table>');
 
         var data2 = $("tbody .ttp-second-row td", con).siblings();
         var counter = 0;
         var rowsW = 0;
-        var finished = false;
+        var finished = true;
 
         for(var i = 0; i < hrs.length; i++){
             if($(data[i]).attr('rowspan') != undefined){
@@ -152,15 +153,19 @@ var app = {
                 $(data[i]).attr('colspan', 2);
             }
             if($(data[i]).hasClass("ttp-block-cell")){
+                console.log("ttp-block-cell");
                 if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i]).append(data2[counter]);}
                 else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
                 counter = 1;
                 finished = false;
                 rowsW = $(data[i]).attr("rowspan")-1;
             } else if(rowsW >= counter && !finished) {
+                console.log("ROWSW");
                 if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data2[counter]);}
+                //else { var row = $('<tr></tr>').append(hrs[i]); }
                 counter++;
             } else {
+                console.log("NORMAL");
                 if(flag){var row = $('<tr></tr>').append(hrs[i]).append(data[i-rowsW]);}
                 else { var row = $('<tr></tr>').append(hrs[i]).append(data[i]); }
                 counter = 0;
