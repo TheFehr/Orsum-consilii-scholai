@@ -112,7 +112,7 @@ var app = {
         };
 
         if(!classFound){
-            console.log(html.html());
+            //console.log(html.html());
             table = $('<p></p>').addClass('class-error').text("Keine Klasse '"+settings.class+"' gefunden!");
         } else {
             table = app.parseClass(html, secondLine);
@@ -131,10 +131,6 @@ var app = {
     parseClass: function(con, flag) {
         var hrs = $(con).find("thead .ttp-cell");
         var data = $("tbody .ttp-line td", con);
-
-        if(hrs.length == 0 || data.length == 0){
-            return $('<p></p>').addClass('class-error').text("Konnte den Stundenplan der Schule '"+settings.school+"' nicht laden!");
-        }
 
         var table = $('<table></table>');
 

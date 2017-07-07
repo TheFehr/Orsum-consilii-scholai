@@ -69,10 +69,12 @@ var app = {
         var xmlHttp = new XMLHttpRequest();
         displayLoadingOverlay();
         xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-                app.loadSuccess(xmlHttp.responseText);
-            } else {
-                app.loadError();
+            if (xmlHttp.readyState == 4){
+                if (xmlHttp.status == 200){
+                    app.loadSuccess(xmlHttp.responseText);
+                } else {
+                    app.loadError();
+                }
             }
         }
         xmlHttp.open("GET", app.buildURL(app.settings), true); // true for asynchronous
@@ -112,7 +114,7 @@ var app = {
         };
 
         if(!classFound){
-            console.log(html.html());
+            //console.log(html.html());
             table = $('<p></p>').addClass('class-error').text("Keine Klasse '"+settings.class+"' gefunden!");
         } else {
             table = app.parseClass(html, secondLine);
@@ -131,10 +133,6 @@ var app = {
     parseClass: function(con, flag) {
         var hrs = $(con).find("thead .ttp-cell");
         var data = $("tbody .ttp-line td", con);
-
-        if(hrs.length == 0 || data.length == 0){
-            return $('<p></p>').addClass('class-error').text("Konnte den Stundenplan der Schule '"+settings.school+"' nicht laden!");
-        }
 
         var table = $('<table></table>');
 
