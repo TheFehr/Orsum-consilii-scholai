@@ -75,6 +75,19 @@
 		    		document.getElementById("back").classList.remove("disabled");
 		    }
 	    }
+	    
+	    function initSeddings() {
+		    var opts = document.querySelector("select").options;
+		    for (var i = 0; i < opts.length; i++) {
+			    var opt = opts.item(i);
+			    
+			    if (opt.value == settings.school) {
+				    opt.selected = true;
+			    }
+		    }
+		    
+		    document.getElementById("classInpt").value = settings.class;
+	    }
 
 	</script>
 </head>
@@ -288,7 +301,7 @@
 		        <tr>
 			        <td>Klasse</td>
 			        <td>
-				        <input onchange="classChanged(event)" type="text" value="3i" placeholder="Bspw. 3i" />
+				        <input onchange="classChanged(event)" type="text" value="3i" placeholder="Bspw. 3i" id="classInpt" />
 			        </td>
 		        </tr>
 	        </tbody>
