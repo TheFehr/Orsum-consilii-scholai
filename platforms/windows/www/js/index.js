@@ -46,6 +46,7 @@ var app = {
         eventController.register("settings", app.loadData);
         app.loadData();
         navbar.init();
+        initSeddings();
     },
 
     buildURL: function() {
